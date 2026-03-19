@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Пользователи — FocusFlow{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">👑</span>
+            <h1 class="text-2xl font-bold text-ff-text">Пользователи</h1>
+        </div>
+    </div>
+
+    {% if error is defined and error %}
+    <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    {% if created %}
+    <div class="glass-card rounded-2xl p-6 glow-purple">
+        <div class="text-center mb-4">
+            <span class="text-4xl">🎉</span>
+            <h2 class="text-lg font-bold text-ff-text mt-2">Пользователь создан!</h2>
+        </div>
+        <div class="bg-ff-bg rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-ff-text-secondary text-sm">Логин:</span>
+                <span class="text-ff-text font-mono font-bold">{{ created.username }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-ff-text-secondary text-sm">Пароль:</span>
+                <span class="text-ff-accent font-mono font-bold">{{ created.password }}</span>
+            </div>
+        </div>
+        <p class="text-amber-600 text-xs mt-3 text-center">⚠️ Сохраните пароль — он показывается только один раз!</p>
+    </div>
+    {% endif %}
+
+    <!-- Добавить пользователя -->
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-lg font-semibold text-ff-text mb-4">Добавить пользователя</h2>
+        <form method="POST" action="/admin/users/add" class="flex gap-3">
+            <input type="text" name="new_username" required
+                class="flex-1 px-4 py-3 rounded-xl bg-ff-bg border border-ff-border text-ff-text placeholder-ff-muted focus:border-ff-accent focus:ring-2 focus:ring-indigo-100 outline-none transition"
+                placeholder="Имя нового пользователя">
+            <button type="submit"
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-ff-accent to-purple-500 text-white font-semibold hover:shadow-lg hover:shadow-indigo-500/20 transition-all">
+                Создать
+            </button>
+        </form>
+    </div>
+
+    <!-- Список пользователей -->
+    <div class="glass-card rounded-2xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-ff-border">
+            <h2 class="text-lg font-semibold text-ff-text">Все пользователи ({{ users_data|length }})</h2>
+        </div>
+        <div class="divide-y divide-ff-border">
+            {% for item in users_data %}
+            <div class="px-6 py-4 flex items-center justify-between hover:bg-indigo-50/30 transition">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ff-accent to-purple-500 flex items-center justify-center text-sm font-bold text-white">
+                        {{ item.user.username[0]|upper }}
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <p class="text-ff-text font-medium">{{ item.user.username }}</p>
+                            {% if item.user.is_admin %}
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 font-medium">Админ</span>
+                            {% endif %}
+                            {% if item.user.telegram_id %}
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-sky-100 text-sky-600 font-medium">Telegram</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-ff-muted text-xs mt-0.5">
+                            {{ item.task_count }} активных задач
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    {% if not item.user.is_admin %}
+                    <form method="POST" action="/admin/users/{{ item.user.id }}/delete"
+                        onsubmit="return confirm('Удалить пользователя «{{ item.user.username }}» и все его задачи?')">
+                        <button type="submit"
+                            class="p-2 rounded-lg bg-red-50 text-red-400 hover:bg-red-100 hover:text-red-600 transition"
+                            title="Удалить">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </form>
+                    {% else %}
+                    <span class="text-ff-muted text-xs">защищён</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — FocusFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #faf5ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 0 4px 40px rgba(99, 102, 241, 0.08), 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-field {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .app-icon {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card rounded-2xl p-10 w-full max-w-md mx-4">
+        <div class="text-center mb-8">
+            <div class="app-icon text-6xl mb-4 inline-block">✨</div>
+            <h1 class="text-3xl font-black gradient-text mb-2">FocusFlow</h1>
+            <p class="text-slate-400 text-sm">Добро пожаловать</p>
+        </div>
+
+        {% if error %}
+        <div class="bg-red-50 border border-red-200 text-red-600 rounded-lg px-4 py-3 mb-6 text-sm text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/login" class="space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-slate-500 mb-2">Логин</label>
+                <input type="text" name="username" required autocomplete="username"
+                    class="input-field w-full px-4 py-3 rounded-xl placeholder-slate-400"
+                    placeholder="Имя пользователя">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-500 mb-2">Пароль</label>
+                <input type="password" name="password" required autocomplete="current-password"
+                    class="input-field w-full px-4 py-3 rounded-xl placeholder-slate-400"
+                    placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-login w-full py-3 rounded-xl text-white font-semibold text-lg">
+                Войти
+            </button>
+        </form>
+
+        <p class="text-center text-slate-400 text-xs mt-8">
+            Планируйте задачи — мы напомним вовремя.
+        </p>
+    </div>
+</body>
+
+</html>
