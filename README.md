@@ -260,19 +260,6 @@ http://localhost:8000
 
 ---
 
-## Что можно улучшить дальше
-
-* вынести секреты в `.env`
-* добавить Alembic для миграций
-* добавить роли и права доступа
-* сделать REST API для мобильного клиента
-* подключить WebSocket вместо SSE
-* добавить повторяющиеся задачи
-* добавить загрузку файлов к задачам
-* внедрить тесты
-
----
-
 ## Скриншоты
 > <img width="1280" height="664" alt="image" src="https://github.com/user-attachments/assets/74522725-1672-4c63-bb6a-e0e72cf66171" />
 > <img width="1280" height="664" alt="image" src="https://github.com/user-attachments/assets/7fede1fd-fdf2-41ee-9705-18e302b38084" />
